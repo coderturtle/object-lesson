@@ -1,4 +1,4 @@
-# Next Actions: Java OOP Workshop
+# Next Actions: Object Lesson
 
 ## Immediate
 

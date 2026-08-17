@@ -1,4 +1,4 @@
-# Decisions: Java OOP Workshop
+# Decisions: Object Lesson
 
 ## ADR Log
 

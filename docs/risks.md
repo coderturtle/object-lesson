@@ -1,4 +1,4 @@
-# Risks: Java OOP Workshop
+# Risks: Object Lesson
 
 ## Risk Register
 

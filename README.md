@@ -1,4 +1,4 @@
-# Java OOP Workshop
+# Object Lesson
 
 **Classification:** factory-output
 **Lifecycle:** active
