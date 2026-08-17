@@ -41,6 +41,12 @@
 - [ ] Get a human to enable GitHub Pages (Settings > Pages > Source: GitHub Actions) and trigger the
   first real `workflow_dispatch` deploy, then confirm the Actions run actually succeeds (not just the
   local build) — this workshop's own Human Gate; out of scope for the session above.
+- [ ] `.github/workflows/deploy-pages.yml` is written to disk but deliberately **not committed**:
+  `.rules/git-contract.md`'s Protected Paths list `.github/workflows/**` as requiring explicit human
+  approval before an agent commits to it, and the local `git-guardrail.sh` hook enforces this
+  mechanically (blocked the commit attempt 2026-08-17). A human needs to review the file (content
+  matches `terminal-velocity`'s pre-cutover workflow exactly: `workflow_dispatch`-only, `push`
+  commented out) and either commit it directly or explicitly authorize an agent to.
 - [ ] Flag the `scaffold-project.sh` `PUBLIC_CAPABLE` hook-install bug upstream (see this session's
   finding above) so future public-capable scaffolds don't repeat it — out of scope for this repo's
   own session, needs a maintainer to touch `~/hekton/scripts/scaffold-project.sh` directly.
