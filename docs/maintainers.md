@@ -17,7 +17,16 @@ This repo has two goals:
 - 2026-08-17 — Scaffolded as factory-output (working title `java-oop-workshop`). Naming pass complete: **Object Lesson**, local dir/GitHub repo/private sibling/vault card all renamed to match.
 - Design brief complete: see [Workshop Design](workshop-design.md) — audience, deterministic-gate method, 9-module arc anchored to Oracle's Java Tutorials, "Objects First with Java," and Exercism's Java track.
 - First [Workshop Review Panel](review-panel/2026-08-17-initial-design.md) run complete against the naming + design docs — all seven personas returned distinct findings; cheap, design-doc-text fixes applied in the same pass (this README rewrite among them). See that report's prioritized action list for what's fixed vs. deferred to the next step.
-- Module skeleton, brand layer, and the build-log/Pages site are the remaining Completion Condition items — see [Next Actions](next-actions.md).
+- 2026-08-17 — Deliverables & branding step complete: module skeleton (all 9 modules, `modules/`),
+  brand layer ([Brand](brand.md)), and README brought into voice compliance. All four findings the
+  Review Panel deferred to this step were resolved as real design decisions in
+  [Workshop Design](workshop-design.md) and `docs/decisions.md`, not silently carried forward — see
+  those files' 2026-08-17 entries. Also found and fixed a real scaffold-template bug: the
+  post-2026-07-25 public/private split scaffolds `setup-hooks.sh`/`check-mirror-drift.sh` into the
+  private sibling, but the sibling isn't a git repo, so the pre-push hook never installed; both
+  scripts now live in this repo's `scripts/` instead, and `scripts/check-brand-lint.sh` is wired in
+  alongside them.
+- The build-log/Pages site is the one remaining Completion Condition item — see [Next Actions](next-actions.md).
 
 ## Documentation Contract
 
@@ -28,6 +37,8 @@ Vault mutation is not allowed by default (`vault_mutation_allowed: false` in `.h
 ## Key Docs
 
 - [Workshop Design](workshop-design.md) — audience, format, deterministic-gate teaching method, curriculum-anchored module arc
+- [Modules](../modules/README.md) — the 9-module arc index and current skeleton status
+- [Brand](brand.md) — voice, hard rules, visual identity for published content
 - [Workshop Review Panel Report](review-panel/2026-08-17-initial-design.md) — 7-persona critique of the naming + design docs, first run
 - [Decisions](decisions.md)
 - [Next Actions](next-actions.md)
