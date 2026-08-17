@@ -99,6 +99,24 @@ encapsulation compiles and passes tests exactly as cleanly as a well-designed on
 precisely why this subject leans harder on the conceptual tier than `borrow-native` needed to, not
 a reason to skip building the deterministic tier first.
 
+**Execution environment — sandboxed, not the learner's bare host (resolved 2026-08-17, closing a
+Security-Conscious Reviewer finding from the Workshop Review Panel's first pass).** `borrow-native`
+never had to answer this question explicitly in its own design docs: its audience was already
+programming-fluent, and `cargo test`/`cargo clippy` compiling and running arbitrary learner code on
+a practitioner's own machine wasn't flagged as a gap by that workshop's panel. This audience is
+different in the one way that matters here — genuinely new to programming, not just new to a
+language — so leaving "where does `javac`/JUnit/Checkstyle actually execute agent-generated Java"
+implicit is a real gap, not a hypothetical one. **Design-level commitment, made now rather than left
+for Coachgremlin to improvise per module:** every module's deterministic-tier check must run inside
+an isolated, ephemeral execution environment (a container or equivalent sandboxed runner invoked by
+the harness — no network access, resource-limited, discarded after each run), never directly on the
+learner's or maintainer's bare host. This is a **commitment about where the check runs, not a
+built sandbox** — no container image, CI wiring, or runner script exists yet, and none is built in
+this design pass. It becomes a hard input to Coachgremlin's fixture-build step: **Module 01's
+fixture-build session must specify and stand up the actual sandboxed runner before any exercise
+ships**, and every module after it reuses that same runner rather than each module inventing its
+own. Tracked as a concrete next action, not just a stated intention — see `docs/next-actions.md`.
+
 ## Canonical-curriculum anchor (research pass, 2026-08-17)
 
 Java OOP for beginners is one of the most heavily taught subjects in computing. Rather than derive
@@ -185,24 +203,50 @@ where design judgment (composition vs. inheritance; when polymorphism gets its o
 from how the canonical material groups things. Each module names its **hard prerequisite**
 explicitly, per the Gremlin's concept-dependency-arc requirement.
 
+\* Modules 03 and 06's hard-prerequisite entries were corrected 2026-08-17 from an earlier draft that
+mislabeled an editorial ordering choice as a structural block — see "Prerequisite reassessment,"
+below, for the full reasoning and what changed.
+
 | # | Module | Hard prerequisite | Oracle anchor | Objects First anchor | Exercism anchor |
 |---|---|---|---|---|---|
 | 01 | Classes & Objects | none (general programming fluency assumed; zero OOP/Java assumed) | Lesson 3, "Classes" + "Objects" subsections | Ch1-2 | "Jedlik's Toy Car" (`classes`) |
 | 02 | Constructors | 01 (a class needs fields before construction means anything) | Lesson 3, "Providing Constructors for Your Classes" | Ch2 (constructors introduced with class definitions) | "Need for Speed" (`constructors`, prereq `classes`) |
-| 03 | Encapsulation | 02 (constructors are the first guarantee that fields start valid; encapsulation is that same guarantee, sustained) | Lesson 3, "Controlling Access to Members of a Class" | Ch9, "Well-behaved objects" | no dedicated concept tag found — see anchor-research finding above |
+| 03 | Encapsulation | 01\* (a class needs fields before there's anything to encapsulate; sequenced after 02 for editorial reasons, not a structural block — see "Prerequisite reassessment," below) | Lesson 3, "Controlling Access to Members of a Class" | Ch9, "Well-behaved objects" | no dedicated concept tag found — see anchor-research finding above |
 | 04 | Inheritance | 01 + 03 (subclassing changes what "controlling access" even means — `protected` has no meaning before encapsulation exists) | Lesson 5, "Inheritance" (Overriding/Hiding, `super`, Object as Superclass) | Ch12-13 | "Wizards and Warriors" (`inheritance`, prereq `classes`/`strings`/`if-else-statements`) |
 | 05 | Polymorphism | 04 (dynamic dispatch requires a subclass relationship to dispatch across) | Lesson 5, "Polymorphism" subsection — Oracle folds this into Inheritance rather than a standalone unit; this workshop splits it out deliberately (see "Why this order") | Ch12-13 (also folded into the inheritance chapters, same pattern as Oracle) | no dedicated concept tag found |
-| 06 | Abstraction (abstract classes & interfaces) — **optional graded extension: Generics & Collections** | 05 (an abstract method or interface is a contract for polymorphic dispatch — "must override" presupposes understanding overriding) | Lesson 5, "Interfaces" + "Abstract Methods and Classes"; Lesson 7 Generics for the extension | Ch14, "Further abstraction techniques" | "Remote Control Competition" (`interfaces`); extension: "Karl's Languages" (`lists`+`generic-types`) |
+| 06 | Abstraction (abstract classes & interfaces) — **required-but-light: Generics & Collections; optional deeper extension: writing your own generic types** | 04\* (overriding — the mechanism an abstract method or interface contract presupposes — is introduced in Module 04, Inheritance, not Module 05; sequenced after 05 for editorial reasons, not a structural block — see "Prerequisite reassessment," below) | Lesson 5, "Interfaces" + "Abstract Methods and Classes"; Lesson 7 Generics for the extension | Ch14, "Further abstraction techniques" | "Remote Control Competition" (`interfaces`); extension: "Karl's Languages" (`lists`+`generic-types`) |
 | 07 | Composition vs. Inheritance | 04 + 06 (an informed *has-a* vs. *is-a* call requires having actually used both inheritance and interfaces first, not just read about them) | none — not a dedicated unit in any of the three anchors; grounded instead in Gamma/Helm/Johnson/Vlissides, *Design Patterns* (1994), "favor composition over inheritance" | none dedicated | none dedicated |
 | 08 | Exception Handling | 04 + 06 (Java's own exception hierarchy — `Throwable`→`Exception`→`RuntimeException` — is itself an inheritance tree; idiomatic custom exceptions extend/implement abstract types) | separate trail, "Essential Java Classes" → "Exceptions" (see self-correction, above) | Ch18, "Handling errors" (after both inheritance chapters and abstraction) | `exceptions` concept tag exists in the track; specific prerequisites not verified in this pass — treat as unconfirmed, not cited as a specific anchor |
 | 09 | Synthesis capstone | all of the above | — | — | — |
 
 **Scoping decision, made now rather than discovered late (mirrors `borrow-native`'s own
-Iterators/Closures fold):** Generics and the Collections Framework (`List`, `Set`, `Map`) are real
-and important, but don't get a standalone module. They're folded into Module 06 as an **optional
-graded extension** — `java.util`'s core collection types *are* interfaces, and generics are what
-make them type-safe, so the extension sits directly on top of what Module 06 already teaches
-rather than requiring its own hard-prerequisite slot in the core arc.
+Iterators/Closures fold, with one deliberate difference — see below):** Generics and the Collections
+Framework (`List`, `Set`, `Map`) are real and important, but don't get a standalone module. They're
+folded into Module 06, on the same reasoning `borrow-native` used: `java.util`'s core collection
+types *are* interfaces, and generics are what make them type-safe, so the material sits directly on
+top of what Module 06 already teaches rather than requiring its own hard-prerequisite slot in the
+core arc.
+
+**Revised 2026-08-17 (Instructional Designer finding, Workshop Review Panel first pass): split into
+a required-but-light baseline and an optional deeper extension, rather than leaving the whole thing
+optional.** The panel's finding was concrete, not speculative: Module 07 (composition over a
+collection of parts), Module 08 (batch exception handling across multiple operations), and Module 09
+(a capstone fixture large enough to need real state) will plausibly all need `List`/`Map` regardless
+of whether a learner did an "optional" extension — making basic collection usage skippable would mean
+those later modules either quietly require it anyway (breaking the "optional" label) or get
+artificially contorted to avoid it (weakening the exercises for no real pedagogical reason). The
+resolved split:
+- **Required-but-light (part of Module 06's core gate):** declaring and using `List<T>` and `Map<K,
+  V>` from `java.util` — construction, adding/getting/iterating, an enhanced `for` loop over a
+  collection. Baseline working fluency, not depth.
+- **Optional deeper extension (unchanged in spirit from the original "optional" framing, just
+  narrowed to what's actually optional):** writing your own generic class or method with a bounded
+  type parameter, and the type-safety reasoning behind erasure/bounds. This is the part with no
+  hard downstream dependency — later modules use `List`/`Map` as a caller, never as a type author.
+
+This is an editorial judgment about how much of "Generics & Collections" is load-bearing for the rest
+of the arc, not a claim backed by the same anchor-research discipline as the module sequence itself —
+recorded as a decision in `docs/decisions.md`, not asserted as self-evidently correct.
 
 ### Why this order (the dependency reasoning, not just the anchors')
 
@@ -222,8 +266,12 @@ of that one* question — is, in this workshop's judgment, a distinct enough sou
 confusion to deserve its own gate rather than being absorbed as a subsection of "inheritance." Both
 of that split's halves depend on each other in the anchors' own material (you can't demonstrate
 polymorphism without inheritance already in place), which is why 05's hard prerequisite is 04, not
-"none." Abstraction depends on polymorphism because an abstract method is, structurally, a promise
-about future overriding — it only makes sense once overriding itself is understood, not before.
+"none." Abstraction is sequenced after polymorphism because this workshop wants a learner who has
+already watched dynamic dispatch happen before being asked to write a contract (an abstract method
+or interface) that only makes sense in terms of future overriding — but that's an editorial
+sequencing choice, not a structural one: overriding itself, the mechanism the contract actually
+presupposes, is introduced back in Module 04, not Module 05. See "Prerequisite reassessment," below,
+for the full correction (a Workshop Review Panel finding this workshop's first draft got wrong).
 Composition vs. Inheritance is deliberately sequenced *after* both inheritance and abstraction, not
 alongside inheritance where a reader might expect a "which one do I use" comparison to live: an
 informed design call needs the learner to have actually built with both tools first, per Gamma et
@@ -234,6 +282,71 @@ both inheritance chapters and the abstraction chapter (Ch18, after Ch12-14), and
 even file it under the same trail as the rest of the OOP-concepts material — both point the same
 direction, that this is late-arc material once real class hierarchies exist to be complicated by
 resource cleanup and error propagation, not day-one material.
+
+### Prerequisite reassessment (Workshop Review Panel finding, resolved 2026-08-17)
+
+The Instructional Designer persona's first-pass critique (`docs/review-panel/2026-08-17-initial-design.md`,
+finding 3) found two of the four "hard prerequisite" claims in the arc table weaker than the "hard"
+label implies. Checked directly rather than defended reflexively — both findings hold up:
+
+- **Module 03 (Encapsulation) ← Module 02 (Constructors), reassessed as an editorial ordering
+  choice, not a hard block.** Nothing in Java's mechanics prevents teaching encapsulation on a
+  default-constructed object — a class with private fields and an implicit no-arg constructor is
+  enough to demonstrate a protected invariant. The doc's original justification ("constructors are
+  the first guarantee that fields start valid; encapsulation is that same guarantee, sustained") is a
+  real pedagogical *theme*, worth keeping as the reason for the ordering, but it was mislabeled as a
+  structural dependency. **Corrected:** Module 03's actual hard prerequisite is **Module 01** (a
+  class needs fields before there's anything to encapsulate at all); its position directly after
+  Module 02 stays as an editorial sequencing choice, on the theme argument above, not because
+  anything would break mechanically if a learner reached Module 03 having skipped Module 02's
+  content review.
+- **Module 06 (Abstraction) ← Module 05 (Polymorphism), reassessed the same way, on stronger
+  evidence.** This one is undercut by this workshop's own cited source: Oracle's Java Tutorials teach
+  Interfaces (Lesson 5) *before* the Polymorphism subsection in the same lesson, meaning the canonical
+  material this workshop anchors against directly contradicts treating 05 as a hard block for 06. The
+  mechanism an abstract method or interface contract actually presupposes is *overriding* — and
+  overriding is introduced in **Module 04** (Inheritance: "Overriding and Hiding Methods"), not
+  Module 05. **Corrected:** Module 06's actual hard prerequisite is **Module 04**. Its position after
+  Module 05 stays as an editorial choice — this workshop still prefers a learner have practiced
+  dynamic dispatch before writing a contract for future overriding — but that preference is now
+  labeled as what it is, not dressed up as a structural requirement Oracle's own material doesn't
+  observe.
+
+The other two hard-prerequisite claims in the table (Module 04 ← 01+03; Module 05 ← 04) were checked
+against the same scrutiny by the same persona and held up — they stay as hard prerequisites, not
+relabeled. This distinction — hard prerequisite (mechanically required) vs. editorial ordering
+(a pedagogical preference this workshop chose and can defend, but that a different, equally valid
+workshop could sequence differently) — is now load-bearing vocabulary for this arc, not a one-time
+fix; a future contributor reordering modules should ask which kind of dependency they're breaking.
+
+### Capstone requirement (Module 09), made concrete (resolved 2026-08-17)
+
+The Instructional Designer persona's first-pass critique (finding 4) is correct that the capstone row
+was asserted, not designed: the arc table's cross-reference columns were entirely "—" and the fixture
+was deferred with no shape, which is a real risk — a single seeded flaw could end up exercising only
+1-2 concepts instead of the claimed synthesis, and nothing in the design would have caught that until
+Coachgremlin had already built it.
+
+**Concrete requirement, decided now so a future content-author can't accidentally under-scope it:**
+Module 09's seeded design flaw must require the learner to touch **3 or more** of the following
+simultaneously — not sequentially, not as independently fixable sub-bugs, but genuinely entangled,
+such that a diagnosis naming only one of them is incomplete:
+
+1. **Encapsulation** — a broken or violated invariant (state reachable that shouldn't be, or a field
+   mutated somewhere it shouldn't be able to reach).
+2. **Inheritance/polymorphism** — a subclassing or overriding decision that's wrong, misused, or
+   masking the real defect (e.g., an override that silently breaks a superclass's contract, or a
+   dispatch that resolves to the wrong implementation).
+3. **Composition** — a has-a relationship that should exist and doesn't (or an is-a relationship used
+   where composition was the right call), such that the fix requires restructuring how objects relate
+   to each other, not just patching a method body.
+
+A defensible capstone fixture is one where the correct written diagnosis has to name at least three
+of these as jointly responsible — fixing any one alone leaves the program still broken or still
+non-idiomatic. This is a **requirement on the fixture's shape**, not the fixture itself: no seeded
+bug, starter project, or rubric text is authored in this pass. That work is explicitly Coachgremlin's,
+run later, against this concrete bar rather than the prior "—" placeholder. See `docs/next-actions.md`
+for the follow-up.
 
 ## What you keep
 
@@ -251,7 +364,7 @@ job at content-building time (not this design pass), but the intended *shape* pe
 | 06 | Abstraction | An interface-vs-abstract-class decision guide, built from real design attempts, not copied from a textbook definition. Extension (if attempted): a generics/collections type-safety cheat-sheet |
 | 07 | Composition vs. Inheritance | A has-a/is-a design-decision guide/Skill. **Escape-hatch warning applies here specifically, and is the other conceptual-tier example the brief itself names:** reaching for inheritance because it was the first thing that compiled, rather than because an *is-a* relationship genuinely held, is exactly the judgment failure this module's gate must catch — Coachgremlin's conceptual tier, not the deterministic one, is where that catch has to happen. |
 | 08 | Exception Handling | A custom-exception-hierarchy template plus a checked-vs-unchecked decision guide |
-| 09 | Synthesis capstone | A personal OOP diagnostic playbook compressing the whole arc into one checklist, built from a defended diagnosis of a real seeded design flaw (mirrors `terminal-velocity`'s and `borrow-native`'s own capstone format: diagnose, fix, defend the diagnosis in writing) — exact capstone artifact/fixture is a later design decision, not fixed in this pass |
+| 09 | Synthesis capstone | A personal OOP diagnostic playbook compressing the whole arc into one checklist, built from a defended diagnosis of a real seeded design flaw that jointly requires encapsulation, inheritance/polymorphism, and composition to diagnose correctly — see "Capstone requirement," above, for the concrete 3+-concept bar (mirrors `terminal-velocity`'s and `borrow-native`'s own capstone format: diagnose, fix, defend the diagnosis in writing) — the fixture itself is Coachgremlin's job, not fixed in this pass |
 
 ## What's explicitly out of scope for this design pass
 
@@ -261,7 +374,9 @@ job at content-building time (not this design pass), but the intended *shape* pe
 - Whether modules share one running project (`borrow-native`'s `relay` pattern) or use independent
   per-module exercises — a real, undecided choice, left to the Deliverables & branding step and/or
   Coachgremlin, not settled here.
-- The Generics & Collections optional extension's actual content (scoped above, not authored).
+- Both halves of the revised Generics & Collections scope's actual content (the required-but-light
+  `List`/`Map` baseline and the optional deeper-generics extension — split decided above, not
+  authored).
 - The real rubric criteria behind each module's conceptual-tier gate — this pass names the *shape*
   of each gate and takeaway, not the graded rubric text itself.
 - The Astro build-log/Pages site and its first deploy.
