@@ -46,7 +46,7 @@ to flag or soften.
 Self-paced, public repo. Matches `terminal-velocity` and `borrow-native`'s precedent — no
 facilitator required, scales without a cohort.
 
-## Subject vs. method (see `<hekton-machinery>/gremlins/workshop/workshop-gremlin.md`'s "Variant: Tech/Language Workshops")
+## Subject vs. method (see `workshop-gremlin.md`'s "Variant: Tech/Language Workshops")
 
 - **Subject:** object-oriented programming fundamentals, taught in Java — classes & objects,
   encapsulation, constructors, inheritance, polymorphism, abstraction (abstract classes and
@@ -126,12 +126,18 @@ a sequence from scratch, this workshop's arc is checked against three real, curr
   itself) → Ch6 *More-sophisticated behaviour* → Ch7 *Fixed-size collections — arrays* → Ch8
   *Designing classes* → Ch9 **"Well-behaved objects"** (encapsulation, `equals`/`hashCode`
   contracts — Oracle has no equivalent standalone unit for this). Part 2 (Application structures):
-  Ch10 *Improving structure with inheritance* → Ch11 *More about inheritance* → Ch12 **"Further
-  abstraction techniques"** (abstract classes, interfaces) → Ch13 Building GUIs → Ch14 **"Handling
-  errors"** → Ch15 Designing applications → Ch16 A case study. The load-bearing fact for this
-  workshop's own arc: exception handling (Ch14) sits *after* both inheritance chapters and the
-  abstraction chapter, not early — real precedent for putting it late in this workshop's own arc
-  too, not an arbitrary choice.
+  Ch10 *Working in teams* → Ch11 *Recursion* → Ch12 *Improving structure with inheritance* → Ch13
+  *More about inheritance* → Ch14 **"Further abstraction techniques"** (abstract classes,
+  interfaces) → Ch15 *Data-oriented classes* → Ch16 *A brief history of Java* → Ch17 Building GUIs
+  → Ch18 **"Handling errors"** → Ch19 Designing applications → Ch20 A case study. **Correction:**
+  an earlier draft of this section compressed Part 2 by four chapters (Working in teams, Recursion,
+  Data-oriented classes, A brief history of Java), which shifted every later chapter number down
+  and mis-cited Handling errors as Ch14 instead of Ch18 — caught by the Workshop Review Panel's
+  AI/ML Practitioner persona on a direct re-check against Pearson/InformIT's published 7th-edition
+  listing. The load-bearing fact for this workshop's own arc survives the correction: exception
+  handling (Ch18) still sits *after* both inheritance chapters (Ch12-13) and the abstraction
+  chapter (Ch14), not early — real precedent for putting it late in this workshop's own arc too,
+  not an arbitrary choice.
 - **Exercism's Java track** (`github.com/exercism/java`, `config.json` fetched directly). 26
   tagged concepts including `classes`, `constructors`, `inheritance`, `interfaces`, `enums`,
   `generic-types`, `lists`, `maps`. Concept exercises tag their own prerequisites as data, e.g.
@@ -141,7 +147,9 @@ a sequence from scratch, this workshop's arc is checked against three real, curr
   `classes`/`strings`/`if-else-statements`), **"Karl's Languages"** (`lists`+`generic-types`,
   prereq: `arrays`/`strings`). Same structural pattern `borrow-native`'s own anchor research found
   in Exercism's Rust track (prerequisites modeled as real data, not prose) — a second, independent
-  confirmation that this is how Exercism structures every track, not a Rust-specific practice.
+  confirmation, from a second track, that this isn't a Rust-specific practice. **Two tracks
+  checked, not a claim about Exercism's full catalog** — that's the evidence this pass actually
+  has.
   **Worth stating plainly as a finding, not an assumption:** the concept list this fetch returned
   does not include `encapsulation`, `polymorphism`, `abstraction`, or `composition` as their own
   tagged concepts — Exercism's Java track appears to model these as design judgment exercised
@@ -156,13 +164,16 @@ against `docs.oracle.com`: it doesn't. Exceptions live in a **separate trail**, 
 Classes" → "Exceptions," alongside I/O and collections, not inside "Learning the Java Language" at
 all. That's a real structural fact, not a rounding error — Oracle's own material treats exception
 handling as a *library/runtime-mechanics* topic, not a core OOP-concepts topic, which is a second,
-independent piece of evidence (alongside Objects First's Ch14 placement) for sequencing it late in
+independent piece of evidence (alongside Objects First's Ch18 placement) for sequencing it late in
 this workshop's own arc rather than early.
 
-**Differentiator against all three:** none teach agent-native, none grade a design-judgment
-conceptual tier beyond "does it compile" (Oracle, Exercism) or a human instructor's own read
-(Objects First, cohort-taught), and none leave a keepable takeaway artifact beyond the solved
-exercise. Object Lesson's bet — genuinely untested, stated as a bet, not a finding — is that a
+**Differentiator against all three:** based on what this pass actually read (each source's own
+published structure, not an exhaustive audit of every page), none of the three appear to teach
+agent-native delivery, grade a design-judgment conceptual tier beyond "does it compile" (Oracle,
+Exercism) or a human instructor's own read (Objects First, cohort-taught), or leave a keepable
+takeaway artifact beyond the solved exercise — these are this pass's own reading of each source,
+not independently cited claims the way the curriculum-structure facts above are. Object Lesson's
+bet — genuinely untested, stated as a bet, not a finding — is that a
 subject this well-covered by static text and compiler-graded exercises specifically benefits from
 an agent watching the *design* attempt, not just the compile, precisely because "does it compile"
 is such a weak filter for whether the OOP judgment underneath is real.
@@ -179,11 +190,11 @@ explicitly, per the Gremlin's concept-dependency-arc requirement.
 | 01 | Classes & Objects | none (general programming fluency assumed; zero OOP/Java assumed) | Lesson 3, "Classes" + "Objects" subsections | Ch1-2 | "Jedlik's Toy Car" (`classes`) |
 | 02 | Constructors | 01 (a class needs fields before construction means anything) | Lesson 3, "Providing Constructors for Your Classes" | Ch2 (constructors introduced with class definitions) | "Need for Speed" (`constructors`, prereq `classes`) |
 | 03 | Encapsulation | 02 (constructors are the first guarantee that fields start valid; encapsulation is that same guarantee, sustained) | Lesson 3, "Controlling Access to Members of a Class" | Ch9, "Well-behaved objects" | no dedicated concept tag found — see anchor-research finding above |
-| 04 | Inheritance | 01 + 03 (subclassing changes what "controlling access" even means — `protected` has no meaning before encapsulation exists) | Lesson 5, "Inheritance" (Overriding/Hiding, `super`, Object as Superclass) | Ch10-11 | "Wizards and Warriors" (`inheritance`, prereq `classes`/`strings`/`if-else-statements`) |
-| 05 | Polymorphism | 04 (dynamic dispatch requires a subclass relationship to dispatch across) | Lesson 5, "Polymorphism" subsection — Oracle folds this into Inheritance rather than a standalone unit; this workshop splits it out deliberately (see "Why this order") | Ch10-11 (also folded into the inheritance chapters, same pattern as Oracle) | no dedicated concept tag found |
-| 06 | Abstraction (abstract classes & interfaces) — **optional graded extension: Generics & Collections** | 05 (an abstract method or interface is a contract for polymorphic dispatch — "must override" presupposes understanding overriding) | Lesson 5, "Interfaces" + "Abstract Methods and Classes"; Lesson 7 Generics for the extension | Ch12, "Further abstraction techniques" | "Remote Control Competition" (`interfaces`); extension: "Karl's Languages" (`lists`+`generic-types`) |
+| 04 | Inheritance | 01 + 03 (subclassing changes what "controlling access" even means — `protected` has no meaning before encapsulation exists) | Lesson 5, "Inheritance" (Overriding/Hiding, `super`, Object as Superclass) | Ch12-13 | "Wizards and Warriors" (`inheritance`, prereq `classes`/`strings`/`if-else-statements`) |
+| 05 | Polymorphism | 04 (dynamic dispatch requires a subclass relationship to dispatch across) | Lesson 5, "Polymorphism" subsection — Oracle folds this into Inheritance rather than a standalone unit; this workshop splits it out deliberately (see "Why this order") | Ch12-13 (also folded into the inheritance chapters, same pattern as Oracle) | no dedicated concept tag found |
+| 06 | Abstraction (abstract classes & interfaces) — **optional graded extension: Generics & Collections** | 05 (an abstract method or interface is a contract for polymorphic dispatch — "must override" presupposes understanding overriding) | Lesson 5, "Interfaces" + "Abstract Methods and Classes"; Lesson 7 Generics for the extension | Ch14, "Further abstraction techniques" | "Remote Control Competition" (`interfaces`); extension: "Karl's Languages" (`lists`+`generic-types`) |
 | 07 | Composition vs. Inheritance | 04 + 06 (an informed *has-a* vs. *is-a* call requires having actually used both inheritance and interfaces first, not just read about them) | none — not a dedicated unit in any of the three anchors; grounded instead in Gamma/Helm/Johnson/Vlissides, *Design Patterns* (1994), "favor composition over inheritance" | none dedicated | none dedicated |
-| 08 | Exception Handling | 04 + 06 (Java's own exception hierarchy — `Throwable`→`Exception`→`RuntimeException` — is itself an inheritance tree; idiomatic custom exceptions extend/implement abstract types) | separate trail, "Essential Java Classes" → "Exceptions" (see self-correction, above) | Ch14, "Handling errors" (after both inheritance chapters and abstraction) | `exceptions` concept tag exists in the track; specific prerequisites not verified in this pass — treat as unconfirmed, not cited as a specific anchor |
+| 08 | Exception Handling | 04 + 06 (Java's own exception hierarchy — `Throwable`→`Exception`→`RuntimeException` — is itself an inheritance tree; idiomatic custom exceptions extend/implement abstract types) | separate trail, "Essential Java Classes" → "Exceptions" (see self-correction, above) | Ch18, "Handling errors" (after both inheritance chapters and abstraction) | `exceptions` concept tag exists in the track; specific prerequisites not verified in this pass — treat as unconfirmed, not cited as a specific anchor |
 | 09 | Synthesis capstone | all of the above | — | — | — |
 
 **Scoping decision, made now rather than discovered late (mirrors `borrow-native`'s own
@@ -219,7 +230,7 @@ informed design call needs the learner to have actually built with both tools fi
 al.'s own framing of the tradeoff, which presupposes a reader who already knows what inheritance
 buys and costs. Exception handling comes last among the core modules for two independently
 corroborating reasons found in this pass's own research, not one: Objects First places it after
-both inheritance chapters and the abstraction chapter (Ch14, after Ch10-12), and Oracle doesn't
+both inheritance chapters and the abstraction chapter (Ch18, after Ch12-14), and Oracle doesn't
 even file it under the same trail as the rest of the OOP-concepts material — both point the same
 direction, that this is late-arc material once real class hierarchies exist to be complicated by
 resource cleanup and error propagation, not day-one material.
@@ -234,7 +245,7 @@ job at content-building time (not this design pass), but the intended *shape* pe
 |---|---|---|
 | 01 | Classes & Objects | A personal "class vs. object" scaffolding checklist/Skill for starting a new class file correctly (fields, constructor stub, purpose comment) before writing any behavior |
 | 02 | Constructors | A constructor-overloading/initialization checklist (when to chain with `this(...)`, what must never be left uninitialized) |
-| 03 | Encapsulation | An invariant-audit checklist/Skill for reading a class and asking "what can still go wrong to this object's state." **Escape-hatch warning applies here specifically, and is the exact conceptual-tier example the brief itself names:** a getter and setter pasted onto every field passes `javac`/JUnit/Checkstyle identically to a class that actually protects an invariant — Coachgremlin's conceptual tier exists precisely to catch this, and must, since the deterministic tier structurally cannot. |
+| 03 | Encapsulation | An invariant-audit checklist/Skill for reading a class and asking "what can still go wrong to this object's state." **Escape-hatch warning applies here specifically, and is the exact conceptual-tier example the brief itself names:** a getter and setter pasted onto every field passes `javac`/JUnit/Checkstyle identically to a class that actually protects an invariant — the deterministic tier structurally cannot catch this, so it falls to Coachgremlin's conceptual tier by elimination. **Whether that conceptual-tier judgment is one Coachgremlin can actually make reliably is itself untested** — same working-hypothesis status as the deterministic-first-gate claim above, not a settled capability. |
 | 04 | Inheritance | An "is-a" litmus-test checklist for when subclassing is actually warranted |
 | 05 | Polymorphism | A dynamic-dispatch debugging playbook (diagnosing "the wrong method ran," distinguishing overriding from overloading) |
 | 06 | Abstraction | An interface-vs-abstract-class decision guide, built from real design attempts, not copied from a textbook definition. Extension (if attempted): a generics/collections type-safety cheat-sheet |

@@ -1,0 +1,13 @@
+# Developer Evangelist Critique — Object Lesson
+
+**Would I share this? Not yet — the README is written for the wrong reader entirely.**
+
+**1. Zero path from "found the repo" to "started module 1."** The README's Key Docs section (lines 26-35) links to `session-log.md`, `decisions.md`, `risks.md`, `project-walkthrough.md`, `next-actions.md`, `operating-model.md`, `human-understanding-check.md`, `depth-decision.md` — eight links, all Hekton governance artifacts, **none of which is a learning module**. The Quick Start block is literally empty: `# Add project-specific commands here`. A first-year student who clicks through gets internal factory paperwork and a comment placeholder. There is no `docs/modules/01-classes-and-objects.md` link, no "run this to begin" — nothing to *do*. This is the single biggest defect: the funnel from landing page to first action doesn't exist yet.
+
+**2. The README reads as internal scaffold-report prose, not a pitch.** Before any learner-facing content, the reader hits `**Classification:** factory-output`, `**Lifecycle:** active`, `**Owner:** coderturtle`, `**Promotion target:** none` (lines 3-6), then an "Implementation Status" note ("Scaffolded 2026-08-17 — initial setup in progress"), then a full "Documentation Contract" paragraph instructing *agents* to inspect `.hekton/project.yaml` and respect vault mutation policy (lines 14-18). A first-year student has no use for any of this, and it's exactly the internal/maintainer framing the Workshop Gremlin's own principles say should be split out of the learner-facing README.
+
+**3. The tagline doesn't land in ten seconds — and buries the better pitch that already exists.** The README's only description is: *"Agent-native workshop teaching object-oriented programming fundamentals in Java to first-year college students, via harness-driven exercises with a deterministic javac/JUnit gate."* That's dense infrastructure vocabulary front-loaded before any hook. Compare to the design doc's own line 61: *"learn to think in objects the way you already work — harness in hand — and let the compiler and a real test suite, not a quiz, be the first gate."* That's a real hook — punchier, more concrete, still true to the mechanism — and it never made it into the README.
+
+**4. The "Object Lesson" pun is never sold.** The name is genuinely good wordplay (a valuable lesson + OOP objects), but nothing in the README's prose leans into or unpacks it — it sits as a bare H1 with an unrelated technical tagline underneath.
+
+No content exists yet to assess for shareability beyond this scaffold — that itself is the finding.
