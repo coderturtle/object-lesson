@@ -28,6 +28,14 @@ current skeleton status is in [Modules](modules/README.md).
 # Add project-specific commands here
 ```
 
+## Build in public
+
+This workshop's own build is published as a dated journal at
+[coderturtle.github.io/object-lesson](https://coderturtle.github.io/object-lesson/) once the first
+deploy is triggered (site built and locally validated, live deploy still pending human
+confirmation): the maintainer's record of building the workshop and its reusable Gremlin tooling at
+the same time, written deliberately rather than auto-generated from session logs.
+
 ## Key Docs
 
 - [Workshop Design](docs/workshop-design.md): the arc, the audience, the deterministic-gate method,

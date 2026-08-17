@@ -26,9 +26,21 @@
     limitation this doesn't fix (worth a follow-up in `~/hekton/scripts/scaffold-project.sh` itself).
   - `scripts/check-brand-lint.sh` added and wired into the pre-push hook alongside the mirror-drift
     check; both warn-only. Verified clean against the current tree.
-- [ ] Build-log/Pages site skeleton (Astro-on-Pages, reusing the `terminal-velocity`/`borrow-native`
-  pipeline) and the GitHub Actions deploy workflow — not yet stood up. Next real Workshop Gremlin
-  roster step per its own Completion Condition.
+- [x] Build-log/Pages site skeleton (Astro-on-Pages, reusing the `terminal-velocity`/`borrow-native`
+  pipeline) and the GitHub Actions deploy workflow — built and locally validated 2026-08-17: `site/`
+  adapted from `borrow-native/site` (Astro 5 Content Layer `glob` loader reading `docs/build-log/` in
+  place, React/narrative components dropped, `@astrojs/mdx` kept), `npm run build` and `astro check`
+  both clean, `base: "/object-lesson/"` (standard GitHub Pages project hosting, no custom domain yet)
+  confirmed on every internal link in the built HTML including header/footer/404/favicon. First seed
+  entry written (`docs/build-log/2026-08-17-scaffold-and-design.md`), brand-lint clean.
+  `.github/workflows/deploy-pages.yml` added, `workflow_dispatch`-only trigger, `push` commented out
+  per the Human Gate — not triggered, Pages not enabled, nothing pushed this session. `npm audit`
+  found 5 inherited vulnerabilities in the Astro starter chain (astro/esbuild/sharp, same category as
+  `borrow-native`'s accepted RISK-0002); not yet formally triaged for this repo, should get the same
+  "none reachable given `output: \"static\"`" review before the first real deploy.
+- [ ] Get a human to enable GitHub Pages (Settings > Pages > Source: GitHub Actions) and trigger the
+  first real `workflow_dispatch` deploy, then confirm the Actions run actually succeeds (not just the
+  local build) — this workshop's own Human Gate; out of scope for the session above.
 - [ ] Flag the `scaffold-project.sh` `PUBLIC_CAPABLE` hook-install bug upstream (see this session's
   finding above) so future public-capable scaffolds don't repeat it — out of scope for this repo's
   own session, needs a maintainer to touch `~/hekton/scripts/scaffold-project.sh` directly.

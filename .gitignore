@@ -34,3 +34,7 @@ dist/
 build/
 *.bak.*
 .project-setup/
+# Astro's generated content-collection cache (site/.astro/): regenerated on every
+# build/dev/check, not source. Matches borrow-native's/terminal-velocity's site/.gitignore
+# convention.
+.astro/
