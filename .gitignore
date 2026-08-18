@@ -4,7 +4,7 @@
 *.pem
 *.key
 *.log
-# Public-capable repo: factory-internal artefacts live in java-oop-workshop-private and are
+# Public-capable repo: factory-internal artefacts live in object-lesson-private and are
 # never tracked here. Ignored as a backstop — scaffolding does not create them in this
 # tree, so these entries should never match anything. If they start matching, something
 # reintroduced the leak this split exists to prevent.
@@ -21,8 +21,12 @@ docs/local-assumptions.md
 docs/blog-signals.md
 docs/gremlin-radar.md
 scripts/sync-mirror-to-vault.sh
-scripts/check-mirror-drift.sh
-scripts/setup-hooks.sh
+# check-mirror-drift.sh and setup-hooks.sh deliberately NOT ignored here (deviation from
+# the scaffold-project.sh template default, see docs/decisions.md 2026-08-17): the
+# scaffold script's own git-init step only ever installs the pre-push hook from
+# $REPO_DIR/scripts/, so leaving these two private-sibling-only would mean the hook never
+# installs for any public-capable project. Both scripts are generic (no vault paths, no
+# secrets) and are tracked here so the pre-push hook this repo relies on actually works.
 __pycache__/
 node_modules/
 .venv/
@@ -30,3 +34,7 @@ dist/
 build/
 *.bak.*
 .project-setup/
+# Astro's generated content-collection cache (site/.astro/): regenerated on every
+# build/dev/check, not source. Matches borrow-native's/terminal-velocity's site/.gitignore
+# convention.
+.astro/

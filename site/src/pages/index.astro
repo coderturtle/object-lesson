@@ -1,0 +1,136 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../components/layout/BaseLayout.astro";
+
+const REPO = "https://github.com/coderturtle/object-lesson";
+const base = import.meta.env.BASE_URL;
+
+const recentEntries = (await getCollection("buildlog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title="Object Lesson: guide"
+  description="Learn to think in objects the way you already work, harness in hand, and let the compiler and a real test suite, not a quiz, be the first gate."
+>
+  <h1 class="text-3xl font-bold">Object Lesson</h1>
+  <p class="mt-2 text-lg opacity-80">
+    Learn to think in objects the way you already work: harness in hand, letting the compiler and
+    a real test suite, not a quiz, be the first gate.
+  </p>
+
+  <div class="post-body mt-10">
+    <p>
+      This page is orientation for anyone landing on the deployed site rather than the repo
+      directly. Object Lesson teaches object-oriented programming in Java to first-year students
+      who've never written a class before, but who already drive a coding agent (a
+      <strong>harness</strong>: Claude Code, Codex, or an equivalent tool) every day. The nine
+      modules themselves, plus the reasoning behind their order, live in the
+      <a href={REPO}>repo</a>, whose own README covers the same ground in more detail once you've
+      cloned it. Nothing here substitutes for cloning it; this is orientation, not the content.
+    </p>
+
+    <h2>Two gates, not one</h2>
+    <p>
+      Every exercise runs through your own harness. A <strong>deterministic gate</strong> checks
+      first, a mechanical pass/fail with no judgment involved: <code>javac</code> compiles clean,
+      JUnit tests are green, Checkstyle is clean. Then a <strong>conceptual gate</strong>:
+      Coachgremlin, this workshop's teaching agent (a role you run yourself, inside your own
+      harness, not a hosted service), checks whether the design underneath is real, whether an
+      encapsulation actually protects an invariant or is just a getter and setter pasted onto
+      every field, whether inheritance was the right call or just the first one that compiled. A
+      class that compiles and passes its tests has cleared the first gate only; that is necessary,
+      never sufficient proof the design is sound.
+    </p>
+
+    <h2>New to the subject, not new to building software</h2>
+    <p>
+      This workshop assumes basic programming literacy: variables, conditionals, loops, functions,
+      in any language. What it does not assume is any prior object-oriented programming or Java
+      syntax, both are treated as genuinely new. That is a different gap than a practitioner
+      picking up an unfamiliar language: here, the subject itself, not just its syntax, is the
+      thing being learned for the first time.
+    </p>
+
+    <h2>The arc</h2>
+    <p>
+      Nine modules, each stating its real prerequisite rather than assuming you read the last one:
+      Classes & Objects, Constructors, Encapsulation, Inheritance, Polymorphism, Abstraction (with
+      a required-but-light Generics & Collections baseline, plus an optional deeper extension),
+      Composition vs. Inheritance, Exception Handling, then a synthesis capstone that hands you a
+      broken design and asks which concept is actually the root cause. Full reasoning for the
+      order, and the curriculum research it's checked against, is in the repo's
+      <code>docs/workshop-design.md</code>.
+    </p>
+
+    <h2>What you walk away with</h2>
+    <p>
+      Two different things get built during each module: your own judgment, and a reusable
+      artifact your agent can load next time. See each module's own README (once authored) for the
+      evidence behind its specific gate.
+    </p>
+    <ul>
+      <li>
+        <strong>You</strong> get practiced judgment: reading a compiler error and finding the real
+        fix instead of a workaround, telling a real invariant apart from a cosmetic accessor, and
+        deciding whether a relationship between two classes is genuinely "is-a" or actually
+        "has-a."
+      </li>
+      <li>
+        <strong>Your agent</strong> gets the packaged <strong>takeaways</strong>, artifacts you
+        keep past the exercise itself: a class-vs-object scaffolding checklist, a constructor
+        initialization checklist, an invariant-audit checklist, an is-a litmus test, a
+        dynamic-dispatch debugging playbook, an interface-vs-abstract-class decision guide, a
+        composition-vs-inheritance decision guide, a custom-exception-hierarchy template, and a
+        personal OOP diagnostic playbook tying it all together.
+      </li>
+    </ul>
+
+    <h2>The runbook</h2>
+    <ol>
+      <li>
+        Prerequisites: basic programming literacy in any language (variables, conditionals, loops,
+        functions); already using a coding-agent harness regularly; a JDK installed.
+      </li>
+      <li>
+        Clone it: <code>git clone {REPO}.git</code>
+      </li>
+      <li>
+        Start at <code>modules/README.md</code>. It has the full arc, in order, and a table of
+        what each module's gate requires and what you keep from it.
+      </li>
+      <li>
+        Work through the nine modules in order. Each states its real prerequisite, and, where this
+        workshop chose an order beyond what's structurally required, says so rather than dressing
+        a preference up as a rule.
+      </li>
+      <li>
+        No module completes by reading it. Every module states a required gate, checked first
+        mechanically, then conceptually. If a module ever reduces to "read this, then move on," or
+        a link here is broken, that's a defect: <a href={`${REPO}/issues`}>open an issue</a>.
+      </li>
+    </ol>
+  </div>
+
+  {
+    recentEntries.length > 0 && (
+      <>
+        <h2 class="mt-14 text-xl font-semibold">Recent from the build log</h2>
+        <ul class="mt-6 space-y-4">
+          {recentEntries.map((entry) => (
+            <li>
+              <a href={`${base}build-log/${entry.id}/`} class="entry-card">
+                <p class="entry-title text-lg font-semibold">{entry.data.title}</p>
+                <p class="mt-1 text-sm opacity-80">{entry.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm opacity-70">
+          See the <a href={`${base}build-log/`} class="underline">full index</a>.
+        </p>
+      </>
+    )
+  }
+</BaseLayout>

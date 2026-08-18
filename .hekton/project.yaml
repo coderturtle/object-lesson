@@ -1,5 +1,5 @@
-project_name: java-oop-workshop
-project_title: "Java OOP Workshop"
+project_name: object-lesson
+project_title: "Object Lesson"
 classification: factory-output
 status: active
 lifecycle_stage: active
@@ -11,13 +11,13 @@ created_date: 2026-08-17
 promotion_target: none
 privacy_boundary: public
 github_account: coderturtle
-github_remote_url: "git@github.com-coderturtle:coderturtle/java-oop-workshop.git"
+github_remote_url: "git@github.com-coderturtle:coderturtle/object-lesson.git"
 vault_mutation_allowed: false
 # This repo is public-capable, so it is born without factory-internal artefacts.
 # The canonical home for .hekton/agent-run-log.yaml, .hekton/change-log.yaml,
 # .hekton/build-tasks/ and the mind-palace/ mirror is the private sibling below.
 # Session machinery and governance validation read/write the sibling, not this repo.
-private_sibling: java-oop-workshop-private
+private_sibling: object-lesson-private
 # version: applies to platform components (alpha|beta|v1.0|v1.x|v2.0) and factory outputs (v0|beta|v1.0|v1.x)
 # Labs do not carry version numbers. Set by the Promotion Agent on first promotion; human confirms.
 version: ""

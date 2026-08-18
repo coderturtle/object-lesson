@@ -1,4 +1,4 @@
-# Operating Model: Java OOP Workshop
+# Operating Model: Object Lesson
 
 ## Classification
 

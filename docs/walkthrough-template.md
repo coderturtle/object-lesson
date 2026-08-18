@@ -1,7 +1,7 @@
 # Walkthrough: {Session Title}
 
 **Date:** YYYY-MM-DD
-**Project:** Java OOP Workshop
+**Project:** Object Lesson
 **Prompt / Session:** N
 
 ## What changed in plain English
@@ -10,7 +10,7 @@
 
 ## The simple analogy
 
-## How this ties to Java OOP Workshop
+## How this ties to Object Lesson
 
 ## How this ties to the Hekton factory vision
 

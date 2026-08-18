@@ -1,4 +1,4 @@
-# Architecture: Java OOP Workshop
+# Architecture: Object Lesson
 
 ## Overview
 

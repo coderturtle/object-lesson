@@ -1,21 +1,26 @@
-# Java OOP Workshop
+# Object Lesson
 
-**Classification:** factory-output
-**Lifecycle:** active
-**Owner:** coderturtle
-**Promotion target:** `none`
+> Learn to think in objects the way you already work: harness in hand, letting the compiler and a
+> real test suite, not a quiz, be the first gate.
 
-> Agent-native workshop teaching object-oriented programming fundamentals in Java to first-year college students, via harness-driven exercises with a deterministic javac/JUnit gate.
+Object Lesson is a self-paced, agent-native workshop teaching object-oriented programming in Java,
+built for first-year college students who've never written a class before but already drive a
+coding agent (a harness: Claude Code, Codex, or an equivalent tool) every day. Every exercise runs
+through your own harness: `javac` and a real test suite tell you if it compiles and works, and your
+agent coaches the design judgment underneath, whether an encapsulation is real or just getters and
+setters pasted on, whether inheritance was the right call or just the first one that compiled.
 
-## Implementation Status
+**Status:** module skeleton and brand layer complete for all nine modules; no exercise content
+authored yet. Not ready to start yet; watch this repo.
 
-- Scaffolded 2026-08-17 — initial setup in progress.
+## The arc
 
-## Documentation Contract
-
-Agents working here must inspect `.hekton/project.yaml` before structural changes, keep `docs/session-log.md` current, record meaningful design decisions in `docs/decisions.md`, and update `docs/next-actions.md` when the work queue changes.
-
-Vault mutation policy: see `vault_mutation_allowed` in `.hekton/project.yaml` (authoritative; defaults to false at scaffold time). The repo-local `mind-palace/` folder is only a mirror draft; do not write to the live vault unless `.hekton/project.yaml` says mutation is allowed and it is explicitly authorised in-session.
+Nine modules, each building on a real prerequisite from the one before it: Classes & Objects →
+Constructors → Encapsulation → Inheritance → Polymorphism → Abstraction (with a required-but-light
+Generics & Collections baseline, plus an optional deeper extension) → Composition vs. Inheritance →
+Exception Handling → a synthesis capstone. Full reasoning for the order, and the real curriculum
+research behind it, is in [Workshop Design](docs/workshop-design.md); the per-module breakdown and
+current skeleton status is in [Modules](modules/README.md).
 
 ## Quick Start
 
@@ -23,14 +28,20 @@ Vault mutation policy: see `vault_mutation_allowed` in `.hekton/project.yaml` (a
 # Add project-specific commands here
 ```
 
+## Build in public
+
+This workshop's own build is published as a dated journal at
+[coderturtle.github.io/object-lesson](https://coderturtle.github.io/object-lesson/) once the first
+deploy is triggered (site built and locally validated, live deploy still pending human
+confirmation): the maintainer's record of building the workshop and its reusable Gremlin tooling at
+the same time, written deliberately rather than auto-generated from session logs.
+
 ## Key Docs
 
-- [Session Log](docs/session-log.md)
-- [Decisions](docs/decisions.md)
-- [Risks](docs/risks.md)
-- [Project Walkthrough](docs/project-walkthrough.md)
-- [Next Actions](docs/next-actions.md)
-- [Operating Model](docs/operating-model.md)
-- [Human Understanding Check](docs/human-understanding-check.md)
-- [Depth Decision](docs/depth-decision.md)
-
+- [Workshop Design](docs/workshop-design.md): the arc, the audience, the deterministic-gate method,
+  and the curriculum research behind it
+- [Modules](modules/README.md): all nine modules, gate tiers, and current skeleton status
+- [Brand](docs/brand.md): voice, hard rules, and visual identity for published content
+- [Next Actions](docs/next-actions.md): what's being worked on now
+- [Maintainers](docs/maintainers.md): internal/agent-facing notes (classification, documentation
+  contract, review-panel reports)

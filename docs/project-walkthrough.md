@@ -1,4 +1,4 @@
-# Java OOP Workshop — Plain-English Project Walkthrough
+# Object Lesson — Plain-English Project Walkthrough
 
 ## What this project is in one paragraph
 
