@@ -38,3 +38,18 @@ build/
 # build/dev/check, not source. Matches borrow-native's/terminal-velocity's site/.gitignore
 # convention.
 .astro/
+
+# Vault-wiring scripts: never ship, but must stay on disk.
+#
+# The accepted open-core boundary spec grades scripts/check-mirror-drift.sh and
+# scripts/setup-hooks.sh as HOLD — they wire a repo to the private mind-palace
+# mirror and are meaningless (and instance-coupling) to anyone cloning this.
+#
+# They are NOT deleted, because docs/decisions.md (2026-08-17) deliberately placed
+# them here: scaffold-project.sh's git-init step only ever looks for
+# scripts/setup-hooks.sh inside the public repo, so the pre-push hook installs
+# nowhere else. That hook tests `-x scripts/check-mirror-drift.sh` at run time, so
+# untracking the files preserves the decision's intent — the hook still works
+# locally — while stopping them from being published.
+scripts/check-mirror-drift.sh
+scripts/setup-hooks.sh

@@ -10,7 +10,7 @@ This is the internal/agent-facing doc. Learners should read the top-level `READM
 This repo has two goals:
 
 1. **Ship a workshop** teaching object-oriented programming fundamentals (classes/objects, encapsulation, inheritance, polymorphism, abstraction, composition vs. inheritance, exception handling) in Java, to first-year college students who are new to OOP and Java but already fluent with a coding-agent harness — taught by running every exercise through that harness with `javac`/JUnit/Checkstyle as a deterministic gate, and Coachgremlin grading the conceptual/design-judgment layer on top.
-2. **Feed evidence back into the reusable machinery**: this is the Workshop Gremlin's third real run (`terminal-velocity` first, `borrow-native` second) and its first true-subject-beginner audience — the prior two assumed general programming fluency, this one doesn't. Findings worth writing back to `~/hekton/gremlins/workshop/workshop-gremlin.md` should be captured as this run progresses.
+2. **Feed evidence back into the reusable machinery**: this is the Workshop Gremlin's third real run (`terminal-velocity` first, `borrow-native` second) and its first true-subject-beginner audience — the prior two assumed general programming fluency, this one doesn't. Findings worth writing back to the internal Workshop Gremlin definition should be captured as this run progresses.
 
 ## Implementation Status
 

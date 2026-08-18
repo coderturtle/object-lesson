@@ -23,7 +23,7 @@
     `check-mirror-drift.sh` were scaffolded into the private sibling (a non-git directory), so the
     pre-push hook never installed; copied both into `object-lesson/scripts/` (public) instead and
     installed the hook for real. See `docs/decisions.md` for the full reasoning and the residual
-    limitation this doesn't fix (worth a follow-up in `~/hekton/scripts/scaffold-project.sh` itself).
+    limitation this doesn't fix (worth a follow-up in the factory's internal `scaffold-project.sh` itself).
   - `scripts/check-brand-lint.sh` added and wired into the pre-push hook alongside the mirror-drift
     check; both warn-only. Verified clean against the current tree.
 - [x] Build-log/Pages site skeleton (Astro-on-Pages, reusing the `terminal-velocity`/`borrow-native`
@@ -49,7 +49,7 @@
   commented out) and either commit it directly or explicitly authorize an agent to.
 - [ ] Flag the `scaffold-project.sh` `PUBLIC_CAPABLE` hook-install bug upstream (see this session's
   finding above) so future public-capable scaffolds don't repeat it — out of scope for this repo's
-  own session, needs a maintainer to touch `~/hekton/scripts/scaffold-project.sh` directly.
+  own session, needs a maintainer to touch the factory's internal `scaffold-project.sh` directly.
 - [ ] Re-run the Workshop Review Panel once real module content exists (content-building via
   Coachgremlin is explicitly out of scope for this Gremlin and for this session).
 
@@ -106,7 +106,7 @@ then pushed the feature branch first per this session's own instructions):
   — fixed via `POST`/`DELETE` on `environments/github-pages/deployment-branch-policies`.
 
 Any future Hekton workshop scaffolded with `--no-push` and pushed feature-branch-first will likely
-hit both — worth a note in `~/hekton/scripts/scaffold-project.sh` or its own docs (out of scope for
+hit both — worth a note in the factory's internal `scaffold-project.sh` or its own docs (out of scope for
 this repo's session; tracked here so it isn't lost).
 
 - [ ] `.github/workflows/deploy-pages.yml`'s `push`-trigger-enabled edit is on disk but
