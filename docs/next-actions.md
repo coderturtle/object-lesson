@@ -86,3 +86,34 @@ break. `npm run build` re-verified clean; built HTML confirmed root-relative lin
   once the TXT record resolves publicly.
 - [ ] Only after all of the above: the first real `workflow_dispatch` deploy (this repo's existing
   Human Gate, unchanged by the domain cutover).
+
+## Session Update: 2026-08-18 — First deploy live at object-lesson.coderturtle.io; Human Gate cleared
+
+DNS (CNAME + TXT), GitHub Pages enablement/custom domain, and domain verification all completed by
+the human. First `workflow_dispatch` deploy (run 32146357632) succeeded end to end; `curl -sI
+https://object-lesson.coderturtle.io` confirmed `HTTP/2 200`. `deploy-pages.yml`'s `push` trigger
+uncommitted-but-enabled (protected path, needs a human commit — see below) so future build-log
+updates auto-publish.
+
+**Two real bugs found and fixed along the way, worth flagging upstream** (both stem from this
+repo's very first push going to `agent/claude/design-and-branding` before `main` existed on the
+remote, since scaffold-project.sh's `--no-push` deferred the initial-commit push to a human, who
+then pushed the feature branch first per this session's own instructions):
+- GitHub set the **repo's default branch** to that first-pushed branch, not `main` —
+  `gh workflow run` 404'd until `default_branch` was PATCHed to `main`.
+- The **`github-pages` deployment environment's branch policy** auto-created itself scoped to that
+  same wrong default branch, blocking `main` from ever deploying even after the branch-default fix
+  — fixed via `POST`/`DELETE` on `environments/github-pages/deployment-branch-policies`.
+
+Any future Hekton workshop scaffolded with `--no-push` and pushed feature-branch-first will likely
+hit both — worth a note in `~/hekton/scripts/scaffold-project.sh` or its own docs (out of scope for
+this repo's session; tracked here so it isn't lost).
+
+- [ ] `.github/workflows/deploy-pages.yml`'s `push`-trigger-enabled edit is on disk but
+  **uncommitted** — same protected-path guardrail as the original file. Run:
+  `git add .github/workflows/deploy-pages.yml && git commit -m "ci: enable push trigger after first deploy confirmed"`
+- [ ] Once HTTPS is enforced (`gh api repos/coderturtle/object-lesson/pages --jq
+  '.https_enforced'` — GitHub issues the cert asynchronously, can take up to ~an hour), confirm and
+  close this out.
+- [ ] `npm audit`'s 5 inherited vulnerabilities still not formally triaged for this repo (see the
+  2026-08-17 entry above) — do before any further real content ships.
