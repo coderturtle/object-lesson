@@ -61,3 +61,7 @@
 
 - [ ] Decide the shared-project-vs-independent-exercises question left open in `docs/workshop-design.md`'s "out of scope" section, before Coachgremlin authors Module 01 content.
 - [ ] Re-run the Workshop Review Panel once real module content exists.
+
+## Session Update: 2026-08-18 — Workshop Gremlin run: naming, design, review panel, module skeleton, build-log site
+
+- [ ] Human review of PR #1; Coachgremlin authors Module 01 content; upstream fix to scaffold-project.sh's PUBLIC_CAPABLE hook-install path; npm audit triage before first real deploy; human-confirmed first workflow_dispatch Pages deploy
