@@ -65,3 +65,24 @@
 ## Session Update: 2026-08-18 — Workshop Gremlin run: naming, design, review panel, module skeleton, build-log site
 
 - [ ] Human review of PR #1; Coachgremlin authors Module 01 content; upstream fix to scaffold-project.sh's PUBLIC_CAPABLE hook-install path; npm audit triage before first real deploy; human-confirmed first workflow_dispatch Pages deploy
+
+## Session Update: 2026-08-18 — Custom domain onboarded (object-lesson.coderturtle.io)
+
+Onboarded as the fifth consumer of `agentic-infra-lab`'s `github-pages-dns` Terraform pattern
+(dermdunc/agentic-infra-lab#8, merged; DNS not yet applied — see that lab's `docs/next-actions.md`
+for the full human runbook). `site/astro.config.mjs` cut over to domain-root serving
+(`site: "https://object-lesson.coderturtle.io"`, `base: "/"`, was `/object-lesson/`) and
+`site/public/CNAME` added, ahead of the human's DNS/Pages steps since no live deploy exists yet to
+break. `npm run build` re-verified clean; built HTML confirmed root-relative links
+(`/`, `/build-log/`, not `/object-lesson/...`) and `dist/CNAME` present.
+
+- [ ] **Human, in `agentic-infra-lab`:** `terraform apply` the object-lesson CNAME-only plan.
+- [ ] **Human:** one-time `gh api --method PUT repos/coderturtle/object-lesson/pages -f
+  cname=object-lesson.coderturtle.io -f build_type=workflow` — enables Pages and sets the custom
+  domain (the consumer's `GITHUB_TOKEN` cannot do this).
+- [ ] **Human:** `github.com/settings/pages` → "Add a domain" (`object-lesson.coderturtle.io`) on
+  the `coderturtle` account to get the real TXT challenge value, then report it back so
+  `agentic-infra-lab`'s `terraform.tfvars` can be filled in for real and re-applied, then "Verify"
+  once the TXT record resolves publicly.
+- [ ] Only after all of the above: the first real `workflow_dispatch` deploy (this repo's existing
+  Human Gate, unchanged by the domain cutover).

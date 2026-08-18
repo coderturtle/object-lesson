@@ -5,12 +5,15 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://coderturtle.github.io",
-  // RENAME-DEPENDENT: if this repo is ever renamed again, update this base to match
-  // the new slug. It's the one spot that needs to change; every internal link uses
-  // Astro's base-aware helpers rather than bare paths, so nothing else does. No custom
-  // domain yet (unlike borrow-native/terminal-velocity) — see docs/decisions.md.
-  base: "/object-lesson/",
+  // Custom domain (object-lesson.coderturtle.io) via GitHub Pages + Route53 CNAME,
+  // see agentic-infra-lab's patterns/github-pages-dns (onboarded as the fifth consumer,
+  // PR dermdunc/agentic-infra-lab#8) and docs/decisions.md. Site now serves at the
+  // domain root, not under /object-lesson/ on coderturtle.github.io — set ahead of the
+  // human's DNS apply/Pages-enablement steps since no live deploy exists yet to break;
+  // see docs/next-actions.md for what's still open. Every internal link MUST still be
+  // base-aware (import.meta.env.BASE_URL), not a bare "/path".
+  site: "https://object-lesson.coderturtle.io",
+  base: "/",
   integrations: [mdx(), tailwind()],
   output: "static",
 });
